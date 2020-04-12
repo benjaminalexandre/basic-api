@@ -23,6 +23,7 @@ $ composer install
 This API is a base that I use to build my applications. 
 
 ### Domain Driven Design
+
 It uses the principle of **DDD (Domain Driven Design)** which is a design technique that allows simple communication between the layers of the application.
 This principle is cut into 5 layers :
 - **Application** : 
@@ -65,6 +66,7 @@ src
 To see more about DDD : [click here](https://airbrake.io/blog/software-design/domain-driven-design).
 
 ###Command Query Responsibility Segregation
+
 I also use the **CQRS** pattern **(Command Query Responsibility Segregation)** which allows the separation, within an application, of the components of business information processing ("command" / writing) and information retrieval ("query" / reading).
 
 You can therefore put the verbs **"POST"**, **"PUT"**, **"PATCH"** and **"DELETE"** on the commands side and the verb **"GET"** on the queries side.
@@ -84,11 +86,13 @@ Application
 ```
 
 ###Abstraction and implementation
+
 The vast majority of API classes, and more often when they fall into class categories (Command, Query, Entity, Repository, etc...) inherit from an abstract class or interface. This method complies with the **SOLID** principle. 
 
 Adhering to this principle gives the advantage of a reusable, easily malleable code and allows typing to be carried out correctly on a wide range of classes.
 
 ###ParamConverter
+
 Symfony allow to directly transform parameters of a request to an object.
 
 But it also possible to create his own **ParamConverter**, that's what was done in the layer (Http/Middleware/ParamConverter) with classes **RouteParamConverter** and **BodyParamConverter**. 
@@ -140,6 +144,7 @@ class UserController
 More about params converters in the [symfony documentation](https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html).
 
 ###AutoMapper
+
 In order to map our orders to entities and our entities to **DTOs** (Data Transfer Object), an automatic mapping has been implemented.
 To use it, mapping profiles must be set up in the various aggregate directories of the entity groups and master groups of the application layer.
 The mapping of identical names is done automatically, the rest can be generated via the "forMember" function.
@@ -167,6 +172,7 @@ class GetUsersMappingProfile
 To have more details, see the [AutoMapperPlus documentation](https://github.com/mark-gerarts/automapper-plus) on github.
 
 ###Validation
+
 The validation of the data posted on the API is done thanks to the [Symfony validation](https://symfony.com/doc/current/validation.html) component.
 By applying constraint annotations on the different entities of the domain, an automatic check of each field of a 
 command becomes possible and takes only one line in the corresponding handler. First we map the command to the entity, 
@@ -207,6 +213,7 @@ private $firstName;
 You can also create your own validator test.
 
 ###NelmioApiDocBundle
+
 In order to generate the API documentation automatically, we use [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle). 
 This bundle allows the developer to set up the documentation of his functions via annotations in the method of his Controller. Annotations work with Swagger.
 
