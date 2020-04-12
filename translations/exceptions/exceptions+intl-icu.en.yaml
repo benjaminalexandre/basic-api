@@ -1,0 +1,8 @@
+data_incorrect: 'The transmitted data are incorrect.'
+error_occured: 'An error has occurred, please try again later.'
+HTTP_BAD_REQUEST: 'Bad request.'
+HTTP_FORBIDDEN: 'Access denied.'
+HTTP_METHOD_NOT_ALLOWED: 'No route found for "{verb} {route}". Allow: {verbs}.'
+HTTP_NOT_FOUND: 'No route found for "{verb} {route}".'
+HTTP_SERVICE_UNAVAILABLE: 'Service unavailable.'
+no_results: 'No result were found.'

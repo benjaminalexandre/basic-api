@@ -1,0 +1,2 @@
+object_modified: 'Object has been modified, please reload it.'
+reference_not_found: 'The value {value} is not referenced as {scope}.'

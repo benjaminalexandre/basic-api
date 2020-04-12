@@ -1,0 +1,8 @@
+data_incorrect: 'Les données transmises sont incorrectes.'
+error_occured: 'Une erreur est survenue, veuillez réessayer plus tard.'
+HTTP_BAD_REQUEST: 'Requête erronée.'
+HTTP_FORBIDDEN: 'Accès refusé.'
+HTTP_METHOD_NOT_ALLOWED: 'Aucune route trouvée pour "{verb} {route}". Autorise : {verbs}.'
+HTTP_NOT_FOUND: 'Aucune route trouvée pour "{verb} {route}".'
+HTTP_SERVICE_UNAVAILABLE: 'Service indisponible.'
+no_results: 'Aucun résultat n''a été trouvé.'
