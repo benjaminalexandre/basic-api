@@ -9,7 +9,6 @@ This a basic API built with Symfony 5
     * [Abstraction and implementation](#abstraction-and-implementation)
     * [ParamConverter](#paramconverter)
     * [AutoMapper](#automapper)
-    * [Validation](#validation)
     * [NelmioApiDocBundle](#nelmioapidocbundle)
 * [TODO List](#todo-list)
 
@@ -171,95 +170,13 @@ class GetUsersMappingProfile
 
 To have more details, see the [AutoMapperPlus documentation](https://github.com/mark-gerarts/automapper-plus) on github.
 
-### Validation
-
-The validation of the data posted on the API is done thanks to the [Symfony validation](https://symfony.com/doc/current/validation.html) component.
-By applying constraint annotations on the different entities of the domain, an automatic check of each field of a 
-command becomes possible and takes only one line in the corresponding handler. First we map the command to the entity, 
-then we validate it thanks to the validation service, finally we send the result of the verification to the 
-**DomainConstraintValidator** class, the latter will be in charge of triggering a domain exception 
-in case an error is detected in the data validation.
-
-```php
-<?php
-$user = $this->mapper->map($command->getUser(), User::class);
-$this->validator->validate($user, "create");
-```
-```php
-<?php
-/**
- * @var string
- *
- * @Constraints\NotBlank(groups={"create", "update"})
- * @Constraints\Length(allowEmptyString=false, min="0", max="255", groups={"create", "update"})
- * @Constraints\Type("string", groups={"create", "update"})
- *
- * @ORM\Column(type="string", length=255)
- */
-private $name;
-
-/**
- * @var string
- *
- * @Constraints\NotBlank(groups={"create", "update"})
- * @Constraints\Length(allowEmptyString=false, min="0", max="255", groups={"create", "update"})
- * @Constraints\Type("string", groups={"create", "update"})
- *
- * @ORM\Column(type="string", length=255)
- */
-private $firstName;
-```
-
-You can also create your own validator test.
-
 ### NelmioApiDocBundle
 
 In order to generate the API documentation automatically, we use [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle). 
-This bundle allows the developer to set up the documentation of his functions via annotations in the method of his Controller. Annotations work with Swagger.
-
-```php
-<?php
-
-namespace App\Http\Controller\User;
-
-class UserController
-{
-    /**
-     * @param GetUsersQuery $query
-     * @return Response
-     *
-     * @ParamConverter(name="query", class=GetUsersQuery::class, converter="http.route")
-     *
-     * @Route("/users", name="get_users", methods={"GET"})
-     *
-     * @SWG\Get(
-     *     path="/users",
-     *     summary="Get users list",
-     *     operationId="getUsers",
-     *     produces={"application/json"},
-     *     tags={"Users"},
-     *     @SWG\Parameter(name="total", in="query", type="boolean", required=false),
-     *     @SWG\Parameter(name="limit", in="query", type="integer", required=false),
-     *     @SWG\Parameter(name="offset", in="query", type="integer", required=false),
-     *     @SWG\Parameter(name="orderBy", in="query", type="string", required=false),
-     *     @SWG\Parameter(name="order", in="query", type="string", enum={"ASC", "DESC"}, required=false),
-     *     @SWG\Parameter(name="search", in="query", type="string", required=false),
-     *     @SWG\Response(response=200, description="", @Model(type=GetUsersQueryResponse::class))
-     * )
-     */
-    public function getUsers(GetUsersQuery $query): Response
-    {
-        /** @var GetUsersQueryResponse $response */
-        $response = $this->bus->dispatch($query);
-
-        if (empty($response->getUsers())) return $this->noContent();
-        return $this->ok($response);
-    }
-}
-```
+This bundle allows the developer to set up the documentation of his functions via annotations in the method of his Controller. Annotations work with [Swagger](https://swagger.io).
 
 ## TODO List
 
-- [ ] Add phpunit tests
-- [ ] Authentication via Jwt
+- [x] Add phpunit tests
+- [ ] Authentication via Jwt (getContext)
 - [ ] Add Domain Event

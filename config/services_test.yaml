@@ -1,0 +1,12 @@
+services:
+  App\Application\Bus\RequestBusInterface:
+    public:
+      true
+#  App\Http\Middleware\EventListener\Jwt\JwtAuthenticatedListener:
+#    tags:
+#    - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_authenticated, method: onJWTAuthenticated }
+#    public:
+#      true
+#  Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface:
+#    public:
+#      true
