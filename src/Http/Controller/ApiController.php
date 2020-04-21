@@ -17,7 +17,7 @@ class ApiController
     /**
      * @var SerializerInterface
      */
-    private $serializer;
+    protected $serializer;
 
     /**
      * @var RequestBusInterface
@@ -40,7 +40,7 @@ class ApiController
      *
      * @return Response
      */
-    protected function ok(RequestResponseInterface $content): Response
+    public function ok(RequestResponseInterface $content): Response
     {
         return $this->getResponse($content, 'json', Response::HTTP_OK);
     }

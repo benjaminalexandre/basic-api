@@ -2,8 +2,6 @@
 
 namespace App\Application\Common\Query;
 
-use Doctrine\Common\Collections\Criteria;
-
 /**
  * Class AbstractQueryList
  * @package App\Application\Common\Query

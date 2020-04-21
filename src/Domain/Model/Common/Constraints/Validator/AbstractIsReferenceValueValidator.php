@@ -3,7 +3,6 @@
 namespace App\Domain\Model\Common\Constraints\Validator;
 
 use App\Application\Provider\Reference\ReferenceAccessor;
-use App\Core\Utils\Translator;
 use App\Domain\Model\Common\Constraints\AbstractIsReferenceValue;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -20,19 +19,12 @@ abstract class AbstractIsReferenceValueValidator extends ConstraintValidator
     private $referenceAccessor;
 
     /**
-     * @var Translator
-     */
-    private $translator;
-
-    /**
      * IsReferencedValueValidator constructor.
      * @param ReferenceAccessor $referenceAccessor
-     * @param Translator $translator
      */
-    public function __construct(ReferenceAccessor $referenceAccessor, Translator $translator)
+    public function __construct(ReferenceAccessor $referenceAccessor)
     {
         $this->referenceAccessor = $referenceAccessor;
-        $this->translator = $translator;
     }
 
     /**
@@ -44,7 +36,6 @@ abstract class AbstractIsReferenceValueValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         $references = $this->referenceAccessor->getReferences([$constraint->getScope()]);
-
         if(!array_key_exists($value, $references[$constraint->getScope()])) {
             $this->context->buildViolation(
                 "reference_not_found",

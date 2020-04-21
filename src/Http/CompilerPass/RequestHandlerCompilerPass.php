@@ -2,7 +2,7 @@
 
 namespace App\Http\CompilerPass;
 
-use App\Http\Bundle\ServiceFactory;
+use App\Http\Helper\RequestBusDispatcher;
 use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -33,7 +33,7 @@ class RequestHandlerCompilerPass extends AbstractCompilerPass
                 $locatableServices[$requestHandlerService] = new Reference($requestHandlerService);
             }
         }
-        $definition = $containerBuilder->findDefinition(ServiceFactory::class);
+        $definition = $containerBuilder->findDefinition(RequestBusDispatcher::class);
         $definition->addArgument(ServiceLocatorTagPass::register($containerBuilder, $locatableServices));
         $definition->addArgument($requestHandlerMapping);
     }

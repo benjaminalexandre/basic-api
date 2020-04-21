@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Fixtures;
 
-use App\Domain\Model\User\User;
+use App\Domain\Model\Foundation\User\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 

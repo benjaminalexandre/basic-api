@@ -4,7 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'fr'
+    locale: 'en'
+    log_activate: true
 
 services:
     # default configuration for services in *this* file
@@ -45,10 +46,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: processException }
 
-    App\Http\Middleware\EventListener\ResponseListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-
     # => => => ParamConverter
     App\Http\Middleware\ParamConverter\RouteParamConverter:
         tags:
@@ -56,7 +53,7 @@ services:
 
     App\Http\Middleware\ParamConverter\BodyParamConverter:
         tags:
-        - { name: request.param_converter, priority: false, converter: http.body }
+            - { name: request.param_converter, priority: false, converter: http.body }
 
     gedmo.listener.timestampable:
         class: Gedmo\Timestampable\TimestampableListener
@@ -70,5 +67,9 @@ services:
             tags: ['app.requests']
         App\Application\Common\RequestHandlerInterface:
             tags: ['app.request_handlers']
+        App\Application\Common\DomainEventHandlerInterface:
+            tags: ['app.domain_event_handlers']
+        App\Domain\Model\DomainEventInterface:
+            tags: ['app.domain_events']
         App\Http\Exception\Normalizer\NormalizerInterface:
             tags: ['app.normalizers']

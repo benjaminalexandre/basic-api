@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\CompilerPass\DomainEventHandlerCompilerPass;
 use App\Http\CompilerPass\RequestHandlerCompilerPass;
 use App\Http\Exception\ExceptionNormalizerCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -45,6 +46,7 @@ class Kernel extends BaseKernel
     public function build(ContainerBuilder $container): ContainerBuilder
     {
         $container->addCompilerPass(new ExceptionNormalizerCompilerPass());
+        $container->addCompilerPass(new DomainEventHandlerCompilerPass());
         $container->addCompilerPass(new RequestHandlerCompilerPass());
 
         return $container;
