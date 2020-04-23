@@ -43,6 +43,7 @@ class GetUserTest extends AbstractControllerTest
         $userDto->setFirstName("FirstName");
         $userDto->setCountryCode("FRA");
         $userDto->setCountryCodeValue("France");
+        $userDto->setPicture("picture.jpg");
         $userDto->setUpdatedAt(new DateTime());
 
         $this->assertResponseIsOk([$userDto]);

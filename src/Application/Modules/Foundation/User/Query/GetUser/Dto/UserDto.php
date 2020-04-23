@@ -37,6 +37,11 @@ class UserDto implements DtoInterface
     private $countryCodeValue;
 
     /**
+     * @var string
+     */
+    private $picture;
+
+    /**
      * @var DateTime
      */
     private $updatedAt;
@@ -119,6 +124,22 @@ class UserDto implements DtoInterface
     public function setCountryCodeValue(string $countryCodeValue): void
     {
         $this->countryCodeValue = $countryCodeValue;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPicture(): string
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param string $picture
+     */
+    public function setPicture(string $picture): void
+    {
+        $this->picture = $picture;
     }
 
     /**
