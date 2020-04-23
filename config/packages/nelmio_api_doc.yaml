@@ -2,7 +2,7 @@ nelmio_api_doc:
   models: { use_jms: false }
   documentation:
     basePath: /
-    host: "%env(BASIC_API_HOST)%"
+    host: "%env(API_HOST)%"
     schemes: [http]
     info:
       title: Basic - API

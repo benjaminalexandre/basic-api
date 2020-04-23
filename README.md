@@ -178,5 +178,6 @@ This bundle allows the developer to set up the documentation of his functions vi
 ## TODO List
 
 - [x] Add phpunit tests
+- [x] Generate image response
 - [ ] Authentication via Jwt (getContext)
 - [ ] Add Domain Event

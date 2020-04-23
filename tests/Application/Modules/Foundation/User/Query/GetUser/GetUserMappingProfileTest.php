@@ -4,6 +4,7 @@ namespace App\Tests\Application\Modules\Foundation\User\Query\GetUser;
 
 use App\Application\Modules\Foundation\User\Query\GetUser\Dto\UserDto;
 use App\Application\Modules\Foundation\User\Query\GetUser\GetUserMappingProfile;
+use App\Application\Provider\Files\FileRender;
 use App\Application\Provider\Reference\ReferenceAccessor;
 use App\Domain\Model\Foundation\User\User;
 use App\Tests\Application\Modules\AbstractMappingProfileTest;
@@ -33,7 +34,8 @@ class GetUserMappingProfileTest extends AbstractMappingProfileTest
         $user->setUpdatedAt(new DateTime());
 
         $referenceAccessor = new ReferenceAccessor("en");
-        $profile = new GetUserMappingProfile($referenceAccessor);
+        $fileRender = new FileRender();
+        $profile = new GetUserMappingProfile($referenceAccessor, $fileRender);
         /** @var UserDto $userDto */
         $userDto = $profile->getMapper()->map($user, UserDto::class);
 
