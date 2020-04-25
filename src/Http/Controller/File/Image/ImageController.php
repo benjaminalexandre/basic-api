@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
 
 /**
  * Class FileController
@@ -37,6 +38,8 @@ class ImageController extends AbstractController
      * @throws \Exception
      *
      * @Route("/files/images", name="get_image", methods={"GET"})
+     *
+     * @Security(name="Bearer")
      *
      * @SWG\Get(
      *      path="/files/images",

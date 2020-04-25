@@ -4,6 +4,7 @@ namespace App\Tests\Application\Modules;
 
 use App\Application\Common\Command\CommandHandlerInterface;
 use App\Application\Common\Command\IdentifierCommandResponse;
+use App\Application\Common\Command\TokenCommandResponse;
 use App\Application\Provider\Validator\DomainConstraintValidator;
 use AutoMapperPlus\AutoMapperInterface;
 use PHPUnit\Framework\MockObject\Matcher\InvokedCount;
@@ -31,6 +32,16 @@ abstract class AbstractHandlerTest extends TestCase
         self::assertInstanceOf(IdentifierCommandResponse::class, $response);
         self::assertEquals($id, $response->getId());
         self::assertEquals($updatedAt, $response->getUpdatedAt());
+    }
+
+    /**
+     * @param TokenCommandResponse $response
+     * @param string $token
+     */
+    protected function assertOnTokenCommandResponse(TokenCommandResponse $response, string $token): void
+    {
+        self::assertInstanceOf(TokenCommandResponse::class, $response);
+        self::assertEquals($token, $response->getToken());
     }
 
     /**

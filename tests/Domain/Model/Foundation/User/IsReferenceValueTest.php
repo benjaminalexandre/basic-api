@@ -2,6 +2,7 @@
 
 namespace App\Tests\Domain\Model\Foundation\User;
 
+use App\Application\Provider\Context\ContextAccessor;
 use App\Application\Provider\Reference\ReferenceAccessor;
 use App\Domain\Model\Foundation\User\Constraints\IsReferenceValue;
 use App\Domain\Model\Foundation\User\Constraints\Validator\IsReferenceValueValidator;
@@ -31,10 +32,9 @@ class IsReferenceValueTest extends AbstractConstraintTest
         string $value
     ): void
     {
-        $user = new User();
-        $user->setCountryCode($value);
-
-        $referenceAccessor = new ReferenceAccessor("en");
+        $contextAccessor = self::createMock(ContextAccessor::class);
+        /** @noinspection PhpParamsInspection */
+        $referenceAccessor = new ReferenceAccessor($contextAccessor, "en");
         $validator = new IsReferenceValueValidator($referenceAccessor);
         $mockedContext = self::getMockForAbstractClass(ExecutionContextInterface::class);
         $mockedConstraintViolation = self::getMockForAbstractClass(ConstraintViolationBuilderInterface::class);

@@ -28,7 +28,8 @@ class CreateUserTest extends AbstractControllerTest
             Request::METHOD_POST,
             "/users",
             new CreateUserCommand(),
-            IdentifierCommandResponse::class
+            IdentifierCommandResponse::class,
+            false
         );
     }
 
@@ -53,6 +54,10 @@ class CreateUserTest extends AbstractControllerTest
         $userDto->setName("NAME");
         $userDto->setFirstName("FirstName");
         $userDto->setCountryCode($badRequest ? "ZZZ" : "FRA");
+        $userDto->setEmail("test@basic-api.com");
+        $userDto->setCellphone("0600000000");
+        $userDto->setLogin("login");
+        $userDto->setPassword($badRequest ? "pwtest" : "Passw0rd");
 
         /** @var CreateUserCommand $request */
         $request = $this->getRequestInterface();

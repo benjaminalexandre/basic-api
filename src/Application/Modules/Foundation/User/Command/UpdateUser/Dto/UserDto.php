@@ -27,6 +27,11 @@ class UserDto implements DtoInterface
     private $countryCode;
 
     /**
+     * @var string|null
+     */
+    private $cellphone;
+
+    /**
      * @var DateTime
      */
     private $updatedAt;
@@ -44,7 +49,7 @@ class UserDto implements DtoInterface
      */
     public function setName(string $name): void
     {
-        $this->name = $name;
+        $this->name = strtoupper($name);
     }
 
     /**
@@ -60,7 +65,7 @@ class UserDto implements DtoInterface
      */
     public function setFirstName(string $firstName): void
     {
-        $this->firstName = $firstName;
+        $this->firstName = ucfirst($firstName);
     }
 
     /**
@@ -77,6 +82,22 @@ class UserDto implements DtoInterface
     public function setCountryCode(string $countryCode): void
     {
         $this->countryCode = $countryCode;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCellphone(): ?string
+    {
+        return $this->cellphone;
+    }
+
+    /**
+     * @param null|string $cellphone
+     */
+    public function setCellphone(?string $cellphone): void
+    {
+        $this->cellphone = $cellphone;
     }
 
     /**

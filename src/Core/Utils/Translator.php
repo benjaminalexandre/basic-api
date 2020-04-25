@@ -2,6 +2,7 @@
 
 namespace App\Core\Utils;
 
+use App\Application\Provider\Context\ContextAccessor;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -22,6 +23,11 @@ class Translator
     private $translator;
 
     /**
+     * @var ContextAccessor
+     */
+    private $contextAccessor;
+
+    /**
      * @var string
      */
     private $locale;
@@ -29,14 +35,17 @@ class Translator
     /**
      * Translator constructor.
      * @param TranslatorInterface $translator
+     * @param ContextAccessor $contextAccessor
      * @param string $locale
      */
     public function __construct(
         TranslatorInterface $translator,
+        ContextAccessor $contextAccessor,
         string $locale
     )
     {
         $this->translator = $translator;
+        $this->contextAccessor = $contextAccessor;
         $this->locale = $locale;
     }
 
@@ -46,6 +55,14 @@ class Translator
     public function setLocale(string $locale): void
     {
         $this->locale = $locale;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isContextAccessorInitialized(): bool
+    {
+        return $this->contextAccessor->isInitialized();
     }
 
     /**

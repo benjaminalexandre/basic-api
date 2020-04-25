@@ -10,14 +10,17 @@ trait UserInsertTrait
 {
     /**
      * @param KernelBrowser $client
+     * @param null|string $login
      * @return User
      */
-    public function insertUser(KernelBrowser $client): User
+    public function insertUser(KernelBrowser $client, ?string $login = "login"): User
     {
-        $user = new User();
+        $user = new User($login, "Passw0rd");
         $user->setName("NAME");
         $user->setFirstName("FirstName");
         $user->setCountryCode("FRA");
+        $user->setEmail("email");
+        $user->setCellphone("0600000000");
 
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine")->getManagerForClass(User::class);

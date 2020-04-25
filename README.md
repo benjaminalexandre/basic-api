@@ -10,14 +10,21 @@ This a basic API built with Symfony 5
     * [ParamConverter](#paramconverter)
     * [AutoMapper](#automapper)
     * [NelmioApiDocBundle](#nelmioapidocbundle)
+    * [JWT and Authentication](#jwt-and-authentication)
+    * [Testing the API](#testing-the-api)
 * [TODO List](#todo-list)
+* [Notes](#notes)
 
 ## Installation
 Clone the repository and install composer packages
 ```bash
 $ composer install
 ```
-
+Then start migration and load the appFixtures
+```bash
+$ php bin/console doctrine:migrations:migrate --no-interaction --quiet
+$ php bin/console doctrine:fixtures:load --no-interaction
+```
 ## Architecture
 This API is a base that I use to build my applications. 
 
@@ -175,9 +182,44 @@ To have more details, see the [AutoMapperPlus documentation](https://github.com/
 In order to generate the API documentation automatically, we use [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle). 
 This bundle allows the developer to set up the documentation of his functions via annotations in the method of his Controller. Annotations work with [Swagger](https://swagger.io).
 
+### JWT and Authentication
+
+In order to secure this API, I use the **JWT** (JSON Web Token) system. Thanks to this token, we can control access to the web service but also allow users to authenticate themselves in order to access it. 
+The authentication and user creation web-services remain open to everyone.
+For others, it is necessary to authenticate to the api via the token provided by the sign-in web service and provide it in the "Authorization" header with the value "Bearer" + token.
+
+Thanks to this token, the api can know which user is currently logged in, as well as the language he has set up according to the chosen country.
+
+To know about JWT, see the [lexik/LexikJWTAuthenticationBundle](https://github.com/lexik/LexikJWTAuthenticationBundle) repo in github.
+
+### Testing the API
+
+To test your api, be sure to have an test environment, then you can start migrations:
+```bash
+$ php bin/console doctrine:migrations:migrate --env=test --no-interaction --quiet
+```
+
+In this phpunit test, we test every layer of the DDD application. Each layer is independent et is testing separately :
+- In **Application** we test : 
+   - The mapperProfile of each web-services, in order to see if every properties of the Entity is map in the DTO.
+   - The handler comportment to see every function called in there.
+- For **Domain** we :
+   - Test every constraint of properties of the Entity model (for example : the Length, the NotBlank value, etc...), and test when there are some client errors.
+   - Test separately custom Constraints.
+- In the **Http** layer :
+   - We test the returned response by the handler, his context and the check HTTP code.
+- Finally for **Repository** we test :
+   - Every request in the repository to see if we have the expected result (need to have a test dataBase).
+
 ## TODO List
 
 - [x] Add phpunit tests
 - [x] Generate image response
-- [ ] Authentication via Jwt (getContext)
-- [ ] Add Domain Event
+- [x] Authentication via Jwt (getContext)
+
+## Notes
+
+Of course this api is **perfectible** in a few points like for example restricting the access to modify and delete user only to the current user (we do not wish, in a real api, that a user can modify any accounts). 
+
+But this API is really a good and solid base to start developing your projects.
+

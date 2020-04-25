@@ -6,6 +6,8 @@ use App\Application\Common\Command\IdentifierCommandResponse;
 use App\Application\Modules\Foundation\User\Command\CreateUser\CreateUserCommand;
 use App\Application\Modules\Foundation\User\Command\DeleteUser\DeleteUserCommand;
 use App\Application\Modules\Foundation\User\Command\UpdateUser\UpdateUserCommand;
+use App\Application\Modules\Foundation\User\Query\GetCurrentUser\GetCurrentUserQuery;
+use App\Application\Modules\Foundation\User\Query\GetCurrentUser\GetCurrentUserQueryResponse;
 use App\Application\Modules\Foundation\User\Query\GetUser\GetUserQuery;
 use App\Application\Modules\Foundation\User\Query\GetUser\GetUserQueryResponse;
 use App\Application\Modules\Foundation\User\Query\GetUsers\GetUsersQuery;
@@ -15,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
@@ -30,6 +33,8 @@ class UserController extends ApiController
      * @ParamConverter(name="query", class=GetUsersQuery::class, converter="http.route")
      *
      * @Route("/users", name="get_users", methods={"GET"})
+     *
+     * @Security(name="Bearer")
      *
      * @SWG\Get(
      *     path="/users",
@@ -63,6 +68,8 @@ class UserController extends ApiController
      *
      * @Route("/users/{id<^[1-9]\d*$>}", name="get_user", methods={"GET"})
      *
+     * @Security(name="Bearer")
+     *
      * @SWG\Get(
      *     path="/users/{id}",
      *     summary="Get a user",
@@ -76,6 +83,33 @@ class UserController extends ApiController
     public function getUser(GetUserQuery $query): Response
     {
         /** @var GetUserQueryResponse $response */
+        $response = $this->bus->dispatch($query);
+
+        return $this->ok($response);
+    }
+
+    /**
+     * @param GetCurrentUserQuery $query
+     * @return Response
+     *
+     * @ParamConverter(name="query", class=GetCurrentUserQuery::class, converter="http.route")
+     *
+     * @Route("/users/current", name="get_current_user", methods={"GET"})
+     *
+     * @Security(name="Bearer")
+     *
+     * @SWG\Get(
+     *     path="/users/current",
+     *     summary="Get the current user",
+     *     operationId="getCurrentUser",
+     *     produces={"application/json"},
+     *     tags={"Users"},
+     *     @SWG\Response(response=200, description="", @Model(type=GetCurrentUserQueryResponse::class))
+     * )
+     */
+    public function getCurrentUser(GetCurrentUserQuery $query): Response
+    {
+        /** @var GetCurrentUserQueryResponse $response */
         $response = $this->bus->dispatch($query);
 
         return $this->ok($response);
@@ -115,6 +149,8 @@ class UserController extends ApiController
      *
      * @Route("/users/{id<^[1-9]\d*$>}", name="update_user", methods={"PUT"})
      *
+     * @Security(name="Bearer")
+     *
      * @SWG\Put(
      *     path="/users/{id}",
      *     summary="Update a user",
@@ -141,6 +177,8 @@ class UserController extends ApiController
      * @ParamConverter(name="command", class=DeleteUserCommand::class, converter="http.route")
      *
      * @Route("/users/{id<^[1-9]\d*$>}", name="delete_user", methods={"DELETE"})
+     *
+     * @Security(name="Bearer")
      *
      * @SWG\Delete(
      *     path="/users/{id}",

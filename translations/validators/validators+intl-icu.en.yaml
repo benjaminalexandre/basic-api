@@ -1,2 +1,4 @@
+is_password_valid: 'The password does not respect asked constraints.'
+is_phone_number: 'The phone number format is incorrect.'
 object_modified: 'Object has been modified, please reload it.'
 reference_not_found: 'The value {value} is not referenced as {scope}.'

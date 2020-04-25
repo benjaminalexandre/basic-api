@@ -2,6 +2,8 @@
 
 namespace App\Tests\Domain\Model;
 
+use App\Core\Utils\Extractor;
+use ReflectionClass;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\TraceableValidator;
 
@@ -65,6 +67,7 @@ abstract class AbstractModelTest extends AbstractConstraintTest
      * @param string $property
      * @param mixed $value
      * @param string $constraintClass
+     * @throws \ReflectionException
      *
      * @dataProvider providerConstraintsFieldsByGroup
      */
@@ -74,9 +77,15 @@ abstract class AbstractModelTest extends AbstractConstraintTest
         $value,
         string $constraintClass): void
     {
-        $entity = new $this->entity();
-        $setProperty = "set$property";
-        $entity->$setProperty($value);
+
+        $entity = $this->getMockBuilder($this->entity)
+            ->disableOriginalConstructor()
+            ->setMockClassName(uniqid(Extractor::getClassShortName($this->entity)))
+            ->getMock();
+        $reflection = new ReflectionClass($this->entity);
+        $reflectionProperty = $reflection->getProperty($property);
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($entity, $value);
 
         // assert that contraint violation and expected constraint have same class
         self::assertEquals(

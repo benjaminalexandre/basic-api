@@ -37,6 +37,16 @@ class UserDto implements DtoInterface
     private $countryCodeValue;
 
     /**
+     * @var string
+     */
+    private $email;
+
+    /**
+     * @var string|null
+     */
+    private $cellphone;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -114,5 +124,37 @@ class UserDto implements DtoInterface
     public function setCountryCodeValue(string $countryCodeValue): void
     {
         $this->countryCodeValue = $countryCodeValue;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCellphone(): ?string
+    {
+        return $this->cellphone;
+    }
+
+    /**
+     * @param null|string $cellphone
+     */
+    public function setCellphone(?string $cellphone): void
+    {
+        $this->cellphone = $cellphone;
     }
 }

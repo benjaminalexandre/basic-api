@@ -5,6 +5,7 @@ namespace App\Tests\Application\Modules\Reference\Reference\Query\GetReferences;
 use App\Application\Modules\Reference\Reference\Query\GetReferences\GetReferencesQuery;
 use App\Application\Modules\Reference\Reference\Query\GetReferences\GetReferencesQueryHandler;
 use App\Application\Modules\Reference\Reference\Query\GetReferences\GetReferencesQueryResponse;
+use App\Application\Provider\Context\ContextAccessor;
 use App\Application\Provider\Reference\ReferenceAccessor;
 use App\Tests\Application\Modules\AbstractHandlerTest;
 
@@ -23,7 +24,8 @@ class GetReferencesTest extends AbstractHandlerTest
         $query = new GetReferencesQuery();
         $query->setScope(["country-code"]);
 
-        $referenceAccessor = new ReferenceAccessor("en");
+        /** @noinspection PhpParamsInspection */
+        $referenceAccessor = new ReferenceAccessor(self::createMock(ContextAccessor::class), "en");
 
         $handler = new GetReferencesQueryHandler($referenceAccessor);
 

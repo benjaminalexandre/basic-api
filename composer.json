@@ -9,6 +9,8 @@
         "ext-json": "*",
         "doctrine/annotations": "^1.10",
         "gedmo/doctrine-extensions": "^2.4",
+        "giggsey/libphonenumber-for-php": "^8.12",
+        "lexik/jwt-authentication-bundle": "^2.6",
         "nelmio/api-doc-bundle": "^3.6",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "5.0.*",

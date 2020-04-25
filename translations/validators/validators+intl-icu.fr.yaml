@@ -1,2 +1,4 @@
+is_password_valid: 'Le mot de passe ne respecte pas les contraintes demandées.'
+is_phone_number: 'Le format de numéro de téléphone est incorrect.'
 object_modified: 'L''objet a été modifié, veuillez le recharger.'
 reference_not_found: 'La valeur {value} n''est pas reférencée comme {scope}.'

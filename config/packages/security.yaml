@@ -1,0 +1,35 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+
+    providers:
+        jwt:
+            lexik_jwt: ~
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        api_auth:
+            pattern: ^(/auth/sign-in)|(/users)
+            methods: [POST]
+            anonymous: true
+
+        api_doc:
+            pattern: ^/api/doc
+            anonymous: true
+
+        api_root:
+            pattern: ^/
+            anonymous: false
+            stateless: true
+            provider: jwt
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+    access_control:
+        - { path: ^/api/doc|(/auth/sign-in)|(/users), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

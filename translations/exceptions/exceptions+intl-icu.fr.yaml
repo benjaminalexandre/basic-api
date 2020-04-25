@@ -6,3 +6,4 @@ HTTP_METHOD_NOT_ALLOWED: 'Aucune route trouvée pour "{verb} {route}". Autorise 
 HTTP_NOT_FOUND: 'Aucune route trouvée pour "{verb} {route}".'
 HTTP_SERVICE_UNAVAILABLE: 'Service indisponible.'
 no_results: 'Aucun résultat n''a été trouvé.'
+record_already_exists: 'Cet enregistrement existe déjà.'
