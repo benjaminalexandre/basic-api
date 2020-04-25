@@ -3,6 +3,7 @@
 namespace App\Tests\Domain\Model\Foundation\User;
 
 use App\Tests\Domain\Model\AbstractModelTest;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 
 /**
@@ -20,7 +21,7 @@ class UserTest extends AbstractModelTest
     public function providerCountRequiredFieldsByGroup(): array
     {
         return [
-            ["create", 3],
+            ["create", 5],
             ["update", 4]
         ];
     }
@@ -43,6 +44,8 @@ class UserTest extends AbstractModelTest
                 "length test - abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz",
                 Length::class
             ],
+            ["create", "email", "texteOnly", Email::class],
+            ["create", "email", "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz.com", Length::class],
             [
                 "update",
                 "name",
@@ -54,7 +57,7 @@ class UserTest extends AbstractModelTest
                 "firstName",
                 "length test - abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz",
                 Length::class
-            ],
+            ]
         ];
     }
 }

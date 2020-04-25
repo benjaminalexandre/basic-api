@@ -68,6 +68,7 @@ class UpdateUserTest extends AbstractControllerTest
         $userDto->setName("NAME");
         $userDto->setFirstName("FirstName");
         $userDto->setCountryCode($badRequest ? "ZZZ" : "FRA");
+        $userDto->setCellphone("0600000000");
         $userDto->setUpdatedAt($this->updatedAt);
 
         /** @var UpdateUserCommand $request */

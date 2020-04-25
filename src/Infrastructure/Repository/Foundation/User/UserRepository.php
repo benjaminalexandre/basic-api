@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Repository\Foundation\User;
 
+use App\Application\Provider\Context\ContextAccessor;
 use App\Domain\Model\Foundation\User\Repository\UserRepositoryInterface;
 use App\Domain\Model\Foundation\User\User;
 use App\Infrastructure\Repository\AbstractRepository;
@@ -16,13 +17,14 @@ use Doctrine\ORM\QueryBuilder;
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
     /**
-     * AbstractRepository constructor.
+     * UserRepository constructor.
      * @param ManagerRegistry $registry
      * @param EntityManagerInterface $manager
+     * @param ContextAccessor $contextAccessor
      */
-    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager, ContextAccessor $contextAccessor)
     {
-        parent::__construct(User::class, $registry, $manager);
+        parent::__construct(User::class, $registry, $manager, $contextAccessor);
     }
 
     /**
@@ -69,6 +71,16 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             ->setParameter("id", $id)
             ->getQuery()
             ->getSingleResult();
+    }
+
+    /**
+     * @return User
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    function getCurrentUser(): User
+    {
+        return $this->getUser($this->contextAccessor->getUserId());
     }
 
     /**

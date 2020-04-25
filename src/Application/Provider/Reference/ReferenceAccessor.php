@@ -2,6 +2,7 @@
 
 namespace App\Application\Provider\Reference;
 
+use App\Application\Provider\Context\ContextAccessor;
 use Doctrine\ORM\NoResultException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Yaml\Yaml;
@@ -19,11 +20,12 @@ class ReferenceAccessor
 
     /**
      * ReferenceAccessor constructor.
+     * @param ContextAccessor $contextAccessor
      * @param string $locale
      */
-    public function __construct(string $locale)
+    public function __construct(ContextAccessor $contextAccessor, string $locale)
     {
-        $this->country = $locale;
+        $this->country = $contextAccessor->isInitialized() ? $contextAccessor->getLanguage() : $locale;
     }
 
     /**

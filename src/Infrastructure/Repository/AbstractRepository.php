@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Repository;
 
 use App\Application\Common\Query\AbstractQuery;
+use App\Application\Provider\Context\ContextAccessor;
 use App\Domain\Model\AbstractModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -28,16 +29,28 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Rep
     private $manager;
 
     /**
+     * @var ContextAccessor
+     */
+    protected $contextAccessor;
+
+    /**
      * AbstractRepository constructor.
      * @param string $entityClass
      * @param ManagerRegistry $registry
      * @param EntityManagerInterface $manager
+     * @param ContextAccessor $contextAccessor
      */
-    public function __construct(string $entityClass, ManagerRegistry $registry, EntityManagerInterface $manager)
+    public function __construct(
+        string $entityClass,
+        ManagerRegistry $registry,
+        EntityManagerInterface $manager,
+        ContextAccessor $contextAccessor
+    )
     {
         parent::__construct($registry, $entityClass);
         $this->registry = $registry;
         $this->manager = $manager;
+        $this->contextAccessor = $contextAccessor;
     }
 
     /**

@@ -30,6 +30,7 @@ services:
     # => => => Reference
     App\Application\Provider\Reference\ReferenceAccessor:
         arguments:
+            - '@App\Application\Provider\Context\ContextAccessor'
             - "%locale%"
 
     # => Core
@@ -37,6 +38,7 @@ services:
     App\Core\Utils\Translator:
         arguments:
             - '@Symfony\Contracts\Translation\TranslatorInterface'
+            - '@App\Application\Provider\Context\ContextAccessor'
             - "%locale%"
 
     # => Http
@@ -45,6 +47,17 @@ services:
     App\Http\Middleware\EventListener\ExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: processException }
+
+    # => => => => Jwt
+    App\Http\Middleware\EventListener\Jwt\JwtCreatedListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    App\Http\Middleware\EventListener\Jwt\JwtAuthenticatedListener:
+        arguments:
+            - '@App\Application\Provider\Authentication\AuthenticationProvider'
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_authenticated, method: onJWTAuthenticated }
 
     # => => => ParamConverter
     App\Http\Middleware\ParamConverter\RouteParamConverter:

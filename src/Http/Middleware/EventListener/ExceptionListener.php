@@ -56,6 +56,10 @@ class ExceptionListener
      */
     public function processException(ExceptionEvent $exceptionEvent): void
     {
+
+        if (!$this->translator->isContextAccessorInitialized()) {
+            $this->translator->setLocale($exceptionEvent->getRequest()->getLocale());
+        }
         $exception = $exceptionEvent->getThrowable();
         $this->loggerHelper->setTerminateEventBuffer($exception->getMessage());
         $message = null;
@@ -82,7 +86,7 @@ class ExceptionListener
                 throw $exception;
             } else {
                 $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
-                $message = $this->translator->trans("error_occured", [], "exceptions");
+                $message = $this->translator->trans("error_occured", [], Translator::DOMAIN_EXCEPTIONS);
             }
         }
 
@@ -113,10 +117,10 @@ class ExceptionListener
     {
         switch ($statusCode = $exception->getStatusCode()) {
             case Response::HTTP_BAD_REQUEST :
-                return $this->translator->trans("HTTP_BAD_REQUEST", [], "exceptions");
+                return $this->translator->trans("HTTP_BAD_REQUEST", [], Translator::DOMAIN_EXCEPTIONS);
                 break;
             case Response::HTTP_FORBIDDEN :
-                return $this->translator->trans("HTTP_FORBIDDEN", [], "exceptions");
+                return $this->translator->trans("HTTP_FORBIDDEN", [],Translator::DOMAIN_EXCEPTIONS);
                 break;
             case Response::HTTP_NOT_FOUND :
                 return $this->translator->trans(
@@ -125,7 +129,7 @@ class ExceptionListener
                         "verb" => $request->getMethod(),
                         "route" => $request->getRequestUri()
                     ],
-                    "exceptions"
+                    Translator::DOMAIN_EXCEPTIONS
                 );
                 break;
             case Response::HTTP_METHOD_NOT_ALLOWED:
@@ -136,10 +140,10 @@ class ExceptionListener
                         "route" => $request->getRequestUri(),
                         "verbs" => implode(", ", $exception->getPrevious()->getAllowedMethods())
                     ],
-                    "exceptions"
+                    Translator::DOMAIN_EXCEPTIONS
                 );
             case Response::HTTP_SERVICE_UNAVAILABLE:
-                return $this->translator->trans("HTTP_SERVICE_UNAVAILABLE", [], "exceptions");
+                return $this->translator->trans("HTTP_SERVICE_UNAVAILABLE", [], Translator::DOMAIN_EXCEPTIONS);
             default:
                 throw new \Exception(__CLASS__ . " - " . __FUNCTION__ . " - Unknown status code : $statusCode.");
                 break;

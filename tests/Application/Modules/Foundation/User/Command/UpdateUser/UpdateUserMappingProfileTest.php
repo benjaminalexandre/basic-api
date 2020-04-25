@@ -24,16 +24,20 @@ class UpdateUserMappingProfileTest extends AbstractMappingProfileTest
      */
     public function testMapWorks(): void
     {
-        $user = new User();
+        /** @var User $user */
+        $user = new User("login", "Passw0rd");
         $user->setName("OLD NAME");
         $user->setFirstName("Old FirstName");
         $user->setCountryCode("GBR");
+        $user->setEmail("email");
+        $user->setCellphone("0600000000");
         $user->setUpdatedAt(new DateTime("1970-01-01 00:00:00"));
 
         $userDto = new UserDto();
         $userDto->setName("NAME");
         $userDto->setFirstName("FirstName");
         $userDto->setCountryCode("FRA");
+        $userDto->setCellphone("0606060606");
         $userDto->setUpdatedAt(new DateTime());
 
         /** @noinspection PhpParamsInspection */
@@ -44,6 +48,8 @@ class UpdateUserMappingProfileTest extends AbstractMappingProfileTest
         self::assertEquals($userDto->getName(), $updatedUser->getName());
         self::assertEquals($userDto->getFirstName(), $updatedUser->getFirstName());
         self::assertEquals($userDto->getCountryCode(), $updatedUser->getCountryCode());
+        self::assertEquals($user->getEmail(), $updatedUser->getEmail());
+        self::assertEquals($userDto->getCellphone(), $updatedUser->getCellphone());
         self::assertEquals($user->getUpdatedAt(), $updatedUser->getUpdatedAt());
 
     }

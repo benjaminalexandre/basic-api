@@ -4,6 +4,7 @@ namespace App\Tests\Application\Modules\Foundation\User\Query\GetUser;
 
 use App\Application\Modules\Foundation\User\Query\GetUser\Dto\UserDto;
 use App\Application\Modules\Foundation\User\Query\GetUser\GetUserMappingProfile;
+use App\Application\Provider\Context\ContextAccessor;
 use App\Application\Provider\Files\FileRender;
 use App\Application\Provider\Reference\ReferenceAccessor;
 use App\Domain\Model\Foundation\User\User;
@@ -26,14 +27,17 @@ class GetUserMappingProfileTest extends AbstractMappingProfileTest
      */
     public function testMapWorks(): void
     {
-        $user = new User();
+        $user = new User("login", "Passw0rd");
         $user->setId(1);
         $user->setName("NAME");
         $user->setFirstName("FirstName");
         $user->setCountryCode("FRA");
+        $user->setEmail("email");
+        $user->setCellphone("0600000000");
         $user->setUpdatedAt(new DateTime());
 
-        $referenceAccessor = new ReferenceAccessor("en");
+        /** @noinspection PhpParamsInspection */
+        $referenceAccessor = new ReferenceAccessor(self::createMock(ContextAccessor::class), "en");
         $fileRender = new FileRender();
         $profile = new GetUserMappingProfile($referenceAccessor, $fileRender);
         /** @var UserDto $userDto */
@@ -43,6 +47,8 @@ class GetUserMappingProfileTest extends AbstractMappingProfileTest
         self::assertEquals($user->getName(), $userDto->getName());
         self::assertEquals($user->getFirstName(), $userDto->getFirstName());
         self::assertEquals($user->getCountryCode(), $userDto->getCountryCode());
+        self::assertEquals($user->getEmail(), $userDto->getEmail());
+        self::assertEquals($user->getCellphone(), $userDto->getCellphone());
         self::assertEquals($user->getUpdatedAt(), $userDto->getUpdatedAt());
     }
 }

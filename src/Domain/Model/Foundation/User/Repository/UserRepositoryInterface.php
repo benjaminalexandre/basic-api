@@ -28,4 +28,9 @@ interface UserRepositoryInterface extends RepositoryInterface
      * @return User
      */
     function getUser(int $id): User;
+
+    /**
+     * @return User
+     */
+    function getCurrentUser(): User;
 }

@@ -11,6 +11,11 @@ use App\Domain\Model\AbstractConstraint;
 abstract class AbstractIsReferenceValue extends AbstractConstraint
 {
     /**
+     * @var string
+     */
+    public $message = "reference_not_found";
+
+    /**
      * @return string
      */
     abstract function getScope(): string;

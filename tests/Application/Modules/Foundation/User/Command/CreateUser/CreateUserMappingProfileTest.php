@@ -27,6 +27,10 @@ class CreateUserMappingProfileTest extends AbstractMappingProfileTest
         $userDto->setName("NAME");
         $userDto->setFirstName("FirstName");
         $userDto->setCountryCode("FRA");
+        $userDto->setEmail("email");
+        $userDto->setCellphone("0600000000");
+        $userDto->setLogin("login");
+        $userDto->setPassword("Passw0rd");
 
         /** @noinspection PhpParamsInspection */
         $profile = new CreateUserMappingProfile();
@@ -36,6 +40,8 @@ class CreateUserMappingProfileTest extends AbstractMappingProfileTest
         self::assertEquals($userDto->getName(), $user->getName());
         self::assertEquals($userDto->getFirstName(), $user->getFirstName());
         self::assertEquals($userDto->getCountryCode(), $user->getCountryCode());
+        self::assertEquals($userDto->getEmail(), $user->getEmail());
+        self::assertEquals($userDto->getCellphone(), $user->getCellphone());
 
     }
 }

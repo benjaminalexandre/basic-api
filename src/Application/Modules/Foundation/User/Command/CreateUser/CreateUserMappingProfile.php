@@ -17,6 +17,10 @@ class CreateUserMappingProfile extends AbstractUserMappingProfile
      */
     protected function initialize(): void
     {
-        $this->config->registerMapping(UserDto::class, User::class);
+        $this->config->registerMapping(UserDto::class, User::class)
+            ->beConstructedUsing(function (UserDto $userDto): User
+            {
+                return new User($userDto->getLogin(), $userDto->getPassword());
+            });
     }
 }

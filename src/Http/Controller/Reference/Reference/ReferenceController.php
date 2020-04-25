@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
@@ -24,6 +25,8 @@ class ReferenceController extends ApiController
      * @ParamConverter(name="query", class=GetReferencesQuery::class, converter="http.route")
      *
      * @Route("/references", name="get_references", methods={"GET"})
+     *
+     * @Security(name="Bearer")
      *
      * @SWG\Get(
      *     path="/references",

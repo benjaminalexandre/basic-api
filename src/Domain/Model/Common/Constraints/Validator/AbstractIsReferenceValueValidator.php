@@ -33,12 +33,12 @@ abstract class AbstractIsReferenceValueValidator extends ConstraintValidator
      * @param mixed $value The value that should be validated
      * @param AbstractIsReferenceValue $constraint
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         $references = $this->referenceAccessor->getReferences([$constraint->getScope()]);
         if(!array_key_exists($value, $references[$constraint->getScope()])) {
             $this->context->buildViolation(
-                "reference_not_found",
+                $constraint->message,
                 ["value" => $value, "scope" => $constraint->getScope()]
             )->addViolation();
         }

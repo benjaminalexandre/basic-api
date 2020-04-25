@@ -17,28 +17,34 @@ class AppFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        $user = new User();
-        $user->setName('Vaujambon');
-        $user->setFirstName('Andy');
+        $user = new User("benjamin.alexandre", "MotDePasse71");
+        $user->setName('Alexandre');
+        $user->setFirstName('Benjamin');
         $user->setCountryCode('FRA');
+        $user->setEmail("benjamin.alexandre@gmail.com");
+        $user->setCellphone("0606060606");
         $manager->persist($user);
 
-        $user = new User();
+        $user = new User("john.doe", "MotDePasse22");
+        $user->setName('Doe');
+        $user->setFirstName('John');
+        $user->setCountryCode('USA');
+        $user->setEmail("john.doe@gmail.com");
+        $user->setCellphone("0666666666");
+        $manager->persist($user);
+
+        $user = new User("sarahcroche", "All0L0la");
         $user->setName('Croche');
         $user->setFirstName('Sarah');
         $user->setCountryCode('FRA');
+        $user->setEmail("sarahcroche@blaguedemerde.com");
         $manager->persist($user);
 
-        $user = new User();
-        $user->setName('Hus');
-        $user->setFirstName('Anne');
-        $user->setCountryCode('GBR');
-        $manager->persist($user);
-
-        $user = new User();
-        $user->setName('Culé');
-        $user->setFirstName('Roland');
+        $user = new User("xx_superKikouDu69_xx", "callOfDuty3TheBest");
+        $user->setName('Dupont');
+        $user->setFirstName('Kevin');
         $user->setCountryCode('FRA');
+        $user->setEmail("kevdu42@skyblog.net");
         $manager->persist($user);
 
         $manager->flush();

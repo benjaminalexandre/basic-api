@@ -5,8 +5,11 @@ namespace App\Tests\Http\Controller;
 use App\Application\Bus\RequestBusInterface;
 use App\Application\Common\Command\CommandInterface;
 use App\Application\Common\RequestInterface;
+use App\Application\Provider\Authentication\AuthenticationProvider;
+use App\Application\Provider\Authentication\UserTokenWrapper;
 use App\Core\Utils\Extractor;
 use App\Domain\Exception\DomainException;
+use App\Http\Middleware\EventListener\Jwt\JwtAuthenticatedListener;
 use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -60,23 +63,32 @@ abstract class AbstractControllerTest extends WebTestCase
     private $isBadRequest = false;
 
     /**
+     * @var bool
+     */
+    private $setBearer = true;
+
+    /**
      * AbstractControllerTest constructor.
      * @param string $httpVerb
      * @param string $method
      * @param RequestInterface $request
      * @param string|null $responseClass
+     * @param bool|null $setBearer
      */
     public function __construct(
         string $httpVerb,
         string $method,
         RequestInterface $request,
-        ?string $responseClass = null)
+        ?string $responseClass = null,
+        ?bool $setBearer = true
+    )
     {
         parent::__construct(null, [], "");
         $this->httpVerb = $httpVerb;
         $this->method = $method;
         $this->request = $request;
         $this->responseClass = $responseClass;
+        $this->setBearer = $setBearer;
     }
 
     /**
@@ -159,6 +171,13 @@ abstract class AbstractControllerTest extends WebTestCase
         $this->mockRequestBus();
 
         $server = [];
+        if($this->setBearer) {
+            $mockedJwtAuthenticatedListener = self::createMock(JwtAuthenticatedListener::class);
+            $mockedJwtAuthenticatedListener->expects(self::once())->method("onJWTAuthenticated");
+            self::$container->set(JwtAuthenticatedListener::class, $mockedJwtAuthenticatedListener);
+            $server = ["HTTP_AUTHORIZATION" => "Bearer {$this->getToken()}"];
+        }
+
         if ($isCommand = is_subclass_of($this->request, CommandInterface::class)) {
             $server["CONTENT_TYPE"] = "application/json";
         }
@@ -219,6 +238,18 @@ abstract class AbstractControllerTest extends WebTestCase
 
 
         self::$container->set(RequestBusInterface::class, $mockedRequestBusInterface);
+    }
+
+    /**
+     * @return string
+     */
+    private function getToken(): string
+    {
+        $userTokenWrapper = new UserTokenWrapper("sub", [], "jti");
+        $userTokenWrapper->setIssuer("issuer");
+        /** @var AuthenticationProvider $authenticationProvider */
+        $authenticationProvider = self::$container->get(AuthenticationProvider::class);
+        return $authenticationProvider->generateToken($userTokenWrapper);
     }
 
     /**

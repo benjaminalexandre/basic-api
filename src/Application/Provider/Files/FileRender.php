@@ -34,7 +34,7 @@ class FileRender
      */
     private function getBasePath(int $fileType = self::IMAGE): string
     {
-        $basePath = $_ENV["API_HOST"] . "/files";
+        $basePath = $_ENV["FILE_RENDER_PATH"] . "/files";
 
         switch($fileType) {
             case self::IMAGE:

@@ -60,7 +60,7 @@ class DomainConstraintValidator
         if ($constraintViolationList->count()) {
             $message = "";
             foreach ($constraintViolationList as $constraintViolation) {
-                $constraintMessage = $this->translator->trans($constraintViolation->getMessageTemplate(), $constraintViolation->getParameters(), "validators");
+                $constraintMessage = $this->translator->trans($constraintViolation->getMessageTemplate(), $constraintViolation->getParameters(), Translator::DOMAIN_VALIDATORS);
                 if($position = strpos($constraintMessage, '|')){
                     if($constraintViolation->getParameters()["{{ limit }}"] > 1){
                         $constraintMessage = substr($constraintMessage, $position+1);
