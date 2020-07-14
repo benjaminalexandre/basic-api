@@ -216,8 +216,8 @@ In this phpunit test, we test every layer of the DDD application. Each layer is 
 - [x] Add phpunit tests
 - [x] Generate image response
 - [x] Authentication via Jwt (getContext)
-- [] Migrate to Php 7.4 and symfony 5.1
-- [] Improve the files structure
+- [ ] Migrate to Php 7.4 and symfony 5.1
+- [ ] Improve the files structure
 
 ## Notes
 
